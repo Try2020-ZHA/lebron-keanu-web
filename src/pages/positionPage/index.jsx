@@ -1,5 +1,5 @@
 import React from 'react'
-import {getPositions} from '../apis/index'
+import {getPositions} from '../../apis'
 import { storePositionItem } from '../../actions'
 import{connect} from 'react-redux'
 import{List} from 'antd'
@@ -10,8 +10,10 @@ class PositionPage extends React.Component{
     componentDidMount(){
         const{storePositionItem} = this.props
         getPositions().then(res=>{
+            console.log(res.data);
+            res.data = [{"parkingSpace":"A401"},{"parkingSpace":"A402"},{"parkingSpace":"A403"}]
                 if(res.status === 200){
-                    dispatchEvent(storePositionItem(res.data))
+                    storePositionItem(res.data)
                 }
             }
         )
@@ -20,6 +22,7 @@ class PositionPage extends React.Component{
         const {showItems} = this.props
         return(
             <div>
+                <h1> Lebron-Keanu ParkingLot!</h1>
                 <List
 					dataSource={showItems}
 					locale={{ emptyText: 'Sorry,there are no position now!' }}
@@ -32,18 +35,18 @@ class PositionPage extends React.Component{
     }
 }
 
-const mapStateToProps = (state) =>{
-    return(
-        showItems : state.position.items,
-    )
+const mapStateToProps=(state)=>{
+    return {
+        showItems:state.position.items,
+    }
 }
 
-const mapDispatchProps = (dispatch) =>{
-    return(
+const mapDispatchToProps = (dispatch) =>{
+    return{
         storePositionItem:(items)=>{
-            dispatch(storePositionItem(items)),
+            dispatch(storePositionItem(items))
         }
-    )
+    }          
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(PositionPage);
