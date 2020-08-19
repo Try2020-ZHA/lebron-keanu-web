@@ -1,0 +1,9 @@
+#listBox{
+    width: 80%;
+    min-width: 1200px;
+    height: 60%;
+    min-height: 800px;
+    background-color: beige;
+    margin: 0 auto;
+}
+
