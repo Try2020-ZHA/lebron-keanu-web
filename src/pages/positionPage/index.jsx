@@ -24,7 +24,15 @@ class PositionPage extends React.Component {
     const { showItems } = this.props;
     return (
       <div>
-        <h1> Lebron-Keanu ParkingLot!</h1>
+          <div className='jump'>
+              <span style={{animationDelay: '0s'}}>Lebron</span>
+              <span style={{animationDelay: '0.5s'}}> & </span>
+              <span style={{animationDelay: '1.0s'}}>Keanu</span>
+              <span style={{animationDelay: '1.5s'}}>`s </span>
+              <span style={{animationDelay: '2.0s'}}> Parking</span>
+              <span style={{animationDelay: '2.5s'}}>-</span>
+              <span style={{animationDelay: '3.0s'}}>Lot</span>
+          </div>
         <div id='listBox'>
           <List
             dataSource={showItems}
