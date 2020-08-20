@@ -6,7 +6,7 @@ class PositionItem extends React.Component {
       const {item} = this.props
     return (
       <div>      
-        <div id="item">
+        <div id="item" className='shake'>
           <span>{item.parkingSpace}</span>
         </div>
       </div>
