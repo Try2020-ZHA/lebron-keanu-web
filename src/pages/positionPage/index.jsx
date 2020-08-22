@@ -1,10 +1,11 @@
 import React from "react";
-import { getPositions } from "../../apis";
-import { storePositionItem } from "../../actions";
 import { connect } from "react-redux";
 import { List } from "antd";
+import { getPositions } from "../../apis";
+import { storePositionItem } from "../../actions";
 import PositionItem from "../../components/positionItem";
 import './index.css'
+
 class PositionPage extends React.Component {
   componentDidMount() {
     const { storePositionItem } = this.props;
@@ -20,27 +21,28 @@ class PositionPage extends React.Component {
       }
     });
   }
+
   render() {
     const { showItems } = this.props;
     return (
-      <div>
-          <div className='jump'>
-              <span style={{animationDelay: '0s'}}>Lebron</span>
-              <span style={{animationDelay: '0.5s'}}> & </span>
-              <span style={{animationDelay: '1.0s'}}>Keanu</span>
-              <span style={{animationDelay: '1.5s'}}>`s </span>
-              <span style={{animationDelay: '2.0s'}}> Parking</span>
-              <span style={{animationDelay: '2.5s'}}>-</span>
-              <span style={{animationDelay: '3.0s'}}>Lot</span>
-          </div>
-        <div id='listBox'>
-          <List
-            dataSource={showItems}
-            locale={{ emptyText: "Sorry,there are no position now!" }}
-            renderItem={(item) => <PositionItem key={item.id} item={item} />}
-          />
-        </div>
-      </div>
+	<div>
+		<div className='jump'>
+			<span style={{animationDelay: '0s'}}>Lebron</span>
+			<span style={{animationDelay: '0.5s'}}> & </span>
+			<span style={{animationDelay: '1.0s'}}>Keanu</span>
+			<span style={{animationDelay: '1.5s'}}>`s </span>
+			<span style={{animationDelay: '2.0s'}}> Parking</span>
+			<span style={{animationDelay: '2.5s'}}>-</span>
+			<span style={{animationDelay: '3.0s'}}>Lot</span>
+		</div>
+		<div id='listBox'>
+			<List
+				dataSource={showItems}
+				locale={{ emptyText: "Sorry,there are no position now!" }}
+				renderItem={(item) => <PositionItem key={item.id} item={item} />}
+			/>
+		</div>
+	</div>
     );
   }
 }
