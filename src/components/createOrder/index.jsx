@@ -8,14 +8,20 @@ class CreateOrder extends React.Component{
         this.state={
             parkingLot:"e-parking",
             parkingPosition:59,
-            visible:false
+            visible:true
         }
     }
+    
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
 
     onSubmit=(values)=>{
         this.handleAddOrder(values)
         this.setState({
-          visible:false
+          visible:true
         })
     }
 
@@ -30,12 +36,6 @@ class CreateOrder extends React.Component{
         title: 'Your Order Submit Fail!'
       });
     }
-
-    showModal = () => {
-      this.setState({
-        visible: true,
-      });
-    };
 
     handleAddOrder=(values)=>{
         const {parkingLot,parkingPosition}=this.state;
@@ -65,9 +65,6 @@ class CreateOrder extends React.Component{
       const {visible}=this.state;
         return(
 	<div>
-		<Button type="primary" onClick={this.showModal}>
-			Open Modal
-		</Button>
 		<Modal
 			title="Please Submit Your Order Here"
 			visible={visible}
