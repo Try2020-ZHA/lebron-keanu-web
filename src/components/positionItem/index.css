@@ -12,6 +12,20 @@
     cursor: pointer;
 }
 
+#itemWithSelect{
+    width: 100px;
+    height: 160px;
+    background-color: green;
+    border-block-color: black;
+    border: 5px solid cornsilk;
+    box-shadow: coral;
+    border-radius: 15px;
+    margin: 20px 30px;
+    float: left;
+    text-align: center;
+    cursor: pointer;
+}
+
 .shake:hover {
 	animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
 	transform: translate3d(0, 0, 0);
