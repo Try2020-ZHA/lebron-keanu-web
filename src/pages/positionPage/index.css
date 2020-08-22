@@ -4,8 +4,34 @@
     height: 60%;
     min-height: 800px;
     background-color: beige;
-    margin: 0 auto;
+    margin: 5px auto;
 }
+
+.select{
+    width: 80%;
+    min-width: 1200px;
+    min-height: 50px;
+    background-color: cornsilk;
+    margin: 20px auto;
+    text-align: center;
+    padding:15px;
+    font-size: large;
+}
+
+.submit{
+    width: 80%;
+    min-width: 1200px;
+    min-height: 50px;
+    background-color: cornsilk;
+    margin: 20px auto;
+    text-align: center;
+    padding:15px;
+    font-size: large;
+}
+
+
+
+
 
 .jump {
     width: 60%;

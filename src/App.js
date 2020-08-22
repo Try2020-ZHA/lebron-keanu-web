@@ -1,13 +1,15 @@
 import React from 'react';
 import './App.css';
 import PositionPage from './pages/positionPage'
-import CreateOrder from './pages/createOrder'
 import '../node_modules/antd/dist/antd.css'
+import {HashRouter,Route} from 'react-router-dom'
 
 function App() {
   return (
     <div className="App">
-      <CreateOrder></CreateOrder>
+      <HashRouter>
+        <Route component={PositionPage} exact path='/'></Route>
+      </HashRouter>
     </div>
   );
 }

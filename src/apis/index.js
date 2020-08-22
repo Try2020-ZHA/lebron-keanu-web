@@ -10,6 +10,13 @@ export function getPositions(){
     })
 }
 
+export function bookingPosition(id){
+    return request({
+        url:`${positionUrl}/${id}`,
+        method:'put'
+    })
+}
+
 export function addOrder(order){
     return request({
         url:`${orderUrl}`,
