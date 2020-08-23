@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { List, Button, Space,Modal } from "antd";
+import { List, Button, Space,DatePicker } from "antd";
 import Websocket from "react-websocket";
 import { getPositions, bookingPosition } from "../../apis";
 import { storePositionItem } from "../../actions";
@@ -8,11 +8,14 @@ import PositionItem from "../../components/positionItem";
 import CreateOrder from '../../components/createOrder'
 import "./index.css";
 
+const {RangePicker }=DatePicker;
+
 class PositionPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      show:false
+      visible:false,
+      item:{},
     };
   }
 
@@ -31,8 +34,7 @@ class PositionPage extends React.Component {
   };
 
   handSendMessage= (item)=>{
-    console.log(item);
-    this.show();
+    this.show(item);
     bookingPosition(item.id).then((res) => {
       this.componentDidMount();
     });
@@ -43,16 +45,29 @@ class PositionPage extends React.Component {
     }`)
   };
 
-  show=()=>{
+  show=(item)=>{
     this.setState({
-      show:!this.state.show
+      visible:true,
+      item
     })
-      
   }
-  
+
+  cancel=()=>{
+    this.setState({
+      visible:false
+    })
+    this.componentDidMount();
+  }
+
+  onChange=(value)=> {
+    console.log('Selected Time: ', value);
+    console.log(value[0]);
+    console.log(value[0]._d);
+  }
 
   render() {
     const { showItems} = this.props;
+    const {visible}=this.state;
     return (
 	<div>
 		<div className="jump">
@@ -66,10 +81,16 @@ class PositionPage extends React.Component {
 		</div>
 		<div className="select">
 			<Space size="large">
-				<label>choosing booking time:</label>
+        <label>choosing booking time:</label>
+				{/* 
 				<Button>30 min later</Button>
 				<Button>60 min later</Button>
-				<Button>90 min later</Button>
+				<Button>90 min later</Button> */}
+				<RangePicker
+					showTime={{ format: 'HH:mm' }}
+					format="YYYY-MM-DD HH:mm"
+					onChange={this.onChange}
+				/>
 			</Space>
 		</div>
 		<div id="listBox">
@@ -95,7 +116,7 @@ class PositionPage extends React.Component {
 		<div className="submit">
 			<label>COST:$ 50</label>
 		</div>
-    <CreateOrder style={{display:this.state.show?'block':'none'}}></CreateOrder>
+		<CreateOrder visible={visible} cancel={this.cancel} item={this.state.item} />
 	</div>
     );
   }
