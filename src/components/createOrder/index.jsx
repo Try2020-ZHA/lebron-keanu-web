@@ -1,28 +1,19 @@
 import React from 'react';
 import {Button, Form, TimePicker,Modal} from 'antd';
-import {addOrder} from '../../apis'
+import {addOrder, bookingPosition} from '../../apis'
 
 class CreateOrder extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            parkingLot:"e-parking",
-            parkingPosition:59,
-            visible:true
+            parkingLot:"Lebron&Keanu-Parking-Lot",
+            parkingPosition:59
         }
     }
-    
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
-  };
 
     onSubmit=(values)=>{
         this.handleAddOrder(values)
-        this.setState({
-          visible:true
-        })
+        this.props.cancel();
     }
 
     success=()=> {
@@ -38,10 +29,10 @@ class CreateOrder extends React.Component{
     }
 
     handleAddOrder=(values)=>{
-        const {parkingLot,parkingPosition}=this.state;
+        const {parkingLot}=this.state;
         const data={
             parkingLot,
-            parkingPosition,
+            parkingPosition:this.props.item.parkingSpace,
             startTime:values.startTime,
             endTime:values.endTime
         }
@@ -55,19 +46,18 @@ class CreateOrder extends React.Component{
     }
 
     handleCancel= () => {
-      this.setState({
-        visible: false,
+      bookingPosition(this.props.item.id).then(res=>{
+        this.props.cancel();
       });
     };
 
 
     render(){
-      const {visible}=this.state;
         return(
 	<div>
 		<Modal
 			title="Please Submit Your Order Here"
-			visible={visible}
+			visible={this.props.visible}
 			onCancel={this.handleCancel}
 			footer={null}
 		>
@@ -78,10 +68,10 @@ class CreateOrder extends React.Component{
 				onFinish={this.onSubmit}
 			>
 				<Form.Item label="Parking Lot">
-					<span>e-parking lot</span>
+					<span>Lebron & Keanu Parking-Lot</span>
 				</Form.Item>
 				<Form.Item label="Space">
-					<span>20</span>
+					<span>{this.props.item.parkingSpace}</span>
 				</Form.Item>
 				<Form.Item label="StartTime" name='startTime'>
 					<TimePicker />
