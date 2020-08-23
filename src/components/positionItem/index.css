@@ -15,15 +15,15 @@
 #itemWithSelect{
     width: 100px;
     height: 160px;
-    background-color: green;
-    border-block-color: black;
     border: 5px solid cornsilk;
     box-shadow: coral;
     border-radius: 15px;
     margin: 20px 30px;
     float: left;
     text-align: center;
-    cursor: pointer;
+    background:url('../../img/car.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .shake:hover {

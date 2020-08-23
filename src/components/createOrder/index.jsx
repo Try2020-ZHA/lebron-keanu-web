@@ -13,7 +13,7 @@ class CreateOrder extends React.Component{
 
     onSubmit=(values)=>{
         this.handleAddOrder(values)
-        this.props.cancel();
+        this.props.afterSubmit();
     }
 
     success=()=> {
@@ -46,9 +46,7 @@ class CreateOrder extends React.Component{
     }
 
     handleCancel= () => {
-      bookingPosition(this.props.item.id).then(res=>{
-        this.props.cancel();
-      });
+      this.props.cancel(this.props.item);
     };
 
 
@@ -74,10 +72,10 @@ class CreateOrder extends React.Component{
 					<span>{this.props.item.parkingSpace}</span>
 				</Form.Item>
 				<Form.Item label="StartTime" name='startTime'>
-					<TimePicker />
+        <span>{this.props.start}</span>
 				</Form.Item>
 				<Form.Item label="EndTime" name='endTime'>
-					<TimePicker />
+        <span>{this.props.end}</span>
 				</Form.Item>
 				<Form.Item label="Submit">
 					<Button type="primary" htmlType="submit">Submit</Button>

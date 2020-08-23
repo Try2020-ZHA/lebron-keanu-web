@@ -25,7 +25,7 @@ export function addOrder(order){
     })
 }
 
-export function getallOrders(){
+export function getAllOrders(){
     return request({
         url:`${orderUrl}`,
         method:'get'

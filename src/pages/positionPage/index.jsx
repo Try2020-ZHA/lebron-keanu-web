@@ -2,10 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 import { List, Button, Space,DatePicker } from "antd";
 import Websocket from "react-websocket";
-import { getPositions, bookingPosition } from "../../apis";
+import { getPositions, bookingPosition,getAllOrders } from "../../apis";
 import { storePositionItem } from "../../actions";
 import PositionItem from "../../components/positionItem";
 import CreateOrder from '../../components/createOrder'
+import moment from 'moment';
 import "./index.css";
 
 const {RangePicker }=DatePicker;
@@ -16,22 +17,40 @@ class PositionPage extends React.Component {
     this.state = {
       visible:false,
       item:{},
+      orders:[],
+      status:[],
+      startTime:'',
+      endTime:''
     };
   }
 
   componentDidMount() {
     const { storePositionItem } = this.props;
     getPositions().then((res) => {
-      console.log(res.data);
       if (res.status === 200) {
         storePositionItem(res.data);
       }
     });
+
+    // getAllOrders().then(res =>{
+    //   if (res.status === 200) {
+    //     this.setState({
+    //       orders:res.data
+    //     })
+    //   }
+    // })
   }
 
   getRealtimeDate = () => {
     this.componentDidMount();
   };
+
+  show=(item)=>{
+    this.setState({
+      visible:true,
+      item
+    })
+  }
 
   handSendMessage= (item)=>{
     this.show(item);
@@ -43,33 +62,50 @@ class PositionPage extends React.Component {
       "parkingSpace": ${item.parkingSpace},
       "status": ${item.status}
     }`)
+    console.log('aaa');
   };
 
-  show=(item)=>{
-    this.setState({
-      visible:true,
-      item
-    })
-  }
-
-  cancel=()=>{
+  cancel=(item)=>{
     this.setState({
       visible:false
     })
-    this.componentDidMount();
+    console.log('hhh');
+    bookingPosition(item.id).then((res) => {
+      this.componentDidMount();
+    });
+    this.refWebSocket.sendMessage(`{
+      "id": ${item.id},
+      "parkingSpace": ${item.parkingSpace},
+      "status": ${item.status}
+    }`)
   }
 
-  onChange=(value)=> {
-    console.log('Selected Time: ', value);
-    console.log(value[0]);
-    console.log(value[0]._d);
+  afterSubmit=()=>{
+    this.setState({
+      visible:false
+    })
+  }
+
+  onChange=(value,dataString)=> {
+    // for(let i=0;i<this.state.orders.length;i++){
+    //   if(orders[i].endTime<value[0]||orders[i].startTime>value[1]){
+    //     this.state.status.push(0);
+    //   }else{
+    //     this.state.status.push(1)
+    //   }
+    // }
+    // console.log(value[0]<moment("2020-08-23T07:22:39.000+00:00")&&value[1]>moment("2020-08-23T07:22:39.000+00:00"))
+    this.setState({
+      startTime:dataString[0],
+      endTime:dataString[1]
+    })
   }
 
   render() {
     const { showItems} = this.props;
     const {visible}=this.state;
     return (
-	<div>
+	<div id='container'>
 		<div className="jump">
 			<span style={{ animationDelay: "0s" }}>Lebron</span>
 			<span style={{ animationDelay: "0.5s" }}> & </span>
@@ -81,15 +117,12 @@ class PositionPage extends React.Component {
 		</div>
 		<div className="select">
 			<Space size="large">
-        <label>choosing booking time:</label>
-				{/* 
-				<Button>30 min later</Button>
-				<Button>60 min later</Button>
-				<Button>90 min later</Button> */}
+        <label className='label'>choosing booking time:</label>			
 				<RangePicker
 					showTime={{ format: 'HH:mm' }}
 					format="YYYY-MM-DD HH:mm"
-					onChange={this.onChange}
+          onChange={this.onChange}
+          size='large'
 				/>
 			</Space>
 		</div>
@@ -113,10 +146,13 @@ class PositionPage extends React.Component {
               this.refWebSocket = websocketMsg;
             }}
 		/>
-		<div className="submit">
-			<label>COST:$ 50</label>
-		</div>
-		<CreateOrder visible={visible} cancel={this.cancel} item={this.state.item} />
+		
+    <CreateOrder visible={visible} cancel={this.cancel}
+     item={this.state.item} 
+     afterSubmit={this.afterSubmit} 
+     start={this.state.startTime}
+     end={this.state.endTime}
+     />
 	</div>
     );
   }
