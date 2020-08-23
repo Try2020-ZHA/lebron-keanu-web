@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { List, Button, Space,Modal } from "antd";
+import { List, Button, Space} from "antd";
 import Websocket from "react-websocket";
 import { getPositions, bookingPosition } from "../../apis";
 import { storePositionItem } from "../../actions";

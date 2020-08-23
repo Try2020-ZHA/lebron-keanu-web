@@ -24,3 +24,10 @@ export function addOrder(order){
         data:order
     })
 }
+
+export function getallOrders(){
+    return request({
+        url:`${orderUrl}`,
+        method:'get'
+    })
+}
